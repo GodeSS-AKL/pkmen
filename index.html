@@ -29,6 +29,7 @@
     overflow-x:hidden;
   }
 
+  /* subtle charcoal-dust texture, nod to the "activated charcoal" ingredient */
   body::before{
     content:"";
     position:fixed;
@@ -47,9 +48,46 @@
   }
   @keyframes driftIn{to{opacity:1;}}
 
+  /* ---- marquee ticker ---- */
+  .ticker{
+    position:relative;
+    z-index:3;
+    width:100%;
+    overflow:hidden;
+    border-bottom:1px solid var(--hairline);
+    background:#0c0c0e;
+    padding:11px 0;
+  }
+  .ticker__track{
+    display:flex;
+    width:max-content;
+    animation:scroll 22s linear infinite;
+  }
+  .ticker__track span{
+    display:inline-flex;
+    align-items:center;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    padding:0 28px;
+    white-space:nowrap;
+  }
+  .ticker__track span::after{
+    content:"✦";
+    margin-left:28px;
+    color:var(--hairline);
+    font-size:.6rem;
+  }
+  @keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
   .stage{
     position:relative;
-    min-height:100vh;
+    min-height:calc(100vh - 40px);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -59,6 +97,7 @@
     z-index:2;
   }
 
+  /* ---- Wordmark ---- */
   .mark{
     font-family:'Bebas Neue',sans-serif;
     line-height:.85;
@@ -96,15 +135,18 @@
     animation:fadeUp .8s ease-out 1.4s forwards;
   }
 
+  /* ---- Razor-sweep reveal on the headline ---- */
   .headline-wrap{
     position:relative;
-    margin-top:56px;
-    max-width:680px;
+    margin-top:44px;
+    max-width:800px;
   }
   .headline{
-    font-size:clamp(1.4rem, 3.4vw, 2.15rem);
-    font-weight:600;
-    line-height:1.35;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(2.6rem, 9vw, 5.4rem);
+    font-weight:400;
+    letter-spacing:.01em;
+    line-height:.95;
     color:var(--white);
     clip-path:inset(0 100% 0 0);
     animation:reveal 1s cubic-bezier(.65,0,.35,1) 1.7s forwards;
@@ -146,6 +188,7 @@
     to{opacity:1; transform:translateY(0);}
   }
 
+  /* ---- Email capture ---- */
   form{
     margin-top:40px;
     display:flex;
@@ -220,10 +263,22 @@
 
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; opacity:1 !important; clip-path:none !important; transform:none !important;}
+    .ticker__track{animation:none;}
   }
 </style>
 </head>
 <body>
+
+<div class="ticker">
+  <div class="ticker__track">
+    <span>Groom Like A Gentleman</span>
+    <span>Wear Confidence</span>
+    <span>Launching Soon</span>
+    <span>Groom Like A Gentleman</span>
+    <span>Wear Confidence</span>
+    <span>Launching Soon</span>
+  </div>
+</div>
 
 <div class="stage">
   <div class="mark">
@@ -234,11 +289,11 @@
   <div class="tagline">Groom Like a Gentleman</div>
 
   <div class="headline-wrap">
-    <p class="headline">Premium grooming, built for the <em>modern gentleman</em> — arriving soon.</p>
+    <p class="headline">Coming <em>Soon</em></p>
     <div class="blade"></div>
   </div>
 
-  <p class="sub">Face wash, beard cleanser and more — formulated with activated charcoal, aloe vera and vitamin B5. Be first to know when we launch.</p>
+  <p class="sub">Face wash · Beard cleanser · Acne defence</p>
 
   <form id="notify-form">
     <input type="email" name="email" placeholder="Enter your email" required>
@@ -252,6 +307,7 @@
 <footer>PK MEN — Wear Confidence</footer>
 
 <script>
+  // Dummy handler — no backend wired up yet. Just shows a thank-you message.
   const form = document.getElementById('notify-form');
   const success = document.getElementById('success-msg');
   form.addEventListener('submit', function(e){
